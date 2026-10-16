@@ -13,7 +13,7 @@ app.get("/", (request, response) => {
 app.get("/about", (request, response) => {
     response.status(200).json({
         name: "Akku Lasya",
-        section: "252U1R9005"
+        section: "CSE GAI 2A"
     });
 });
 

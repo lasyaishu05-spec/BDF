@@ -10,9 +10,7 @@
 
 ## Live Link
 
-**Deployment URL:** Not deployed yet.
-
-> Update this section with your public deployment URL after deploying the server. If deployment is not possible, explain the reason here and include screenshots of all endpoints.
+**Deployment URL:** [https://bdf-lab-01-wheat.vercel.app](https://bdf-lab-01-wheat.vercel.app)
 
 ## Objective
 
