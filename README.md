@@ -85,9 +85,9 @@ Stop the running server with `Ctrl + C` before starting another server on the sa
 | GET | `/` | Returns a welcome message | 200 OK |
 | GET | `/about` | Returns the student's name and section as JSON | 200 OK |
 | GET | `/time` | Returns the current date and time | 200 OK |
-| GET | `/anything` | Demonstrates the response for an unknown route | 404 Not Found |
+| GET | `/work` | Demonstrates the response for an unknown route | 404 Not Found |
 
-The `/anything` path is an example of an unknown route. Other undefined paths should also return a 404 response.
+The `/work` path is an example of an unknown route. Other undefined paths should also return a 404 response.
 
 ## Screenshots
 
