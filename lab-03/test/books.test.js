@@ -4,9 +4,8 @@ const os = require("node:os");
 const path = require("node:path");
 const fs = require("node:fs/promises");
 const request = require("supertest");
-const sqlite3 = require("sqlite3");
-const { open } = require("sqlite");
 const { createApp } = require("../server");
+const { initializeDatabase } = require("../db");
 
 let directory;
 let db;
@@ -14,18 +13,7 @@ let app;
 
 before(async () => {
   directory = await fs.mkdtemp(path.join(os.tmpdir(), "lab-03-books-"));
-  db = await open({
-    filename: path.join(directory, "test.sqlite"),
-    driver: sqlite3.Database,
-  });
-  await db.exec(`
-    CREATE TABLE books (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      title TEXT NOT NULL,
-      author TEXT NOT NULL,
-      price REAL NOT NULL
-    )
-  `);
+  db = await initializeDatabase(path.join(directory, "test.sqlite"));
   app = createApp(db);
 });
 
