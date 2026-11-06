@@ -104,3 +104,47 @@ test("malformed JSON returns a consistent 400 error", async () => {
   assert.equal(response.status, 400);
   assert.deepEqual(response.body, { message: "Invalid JSON body" });
 });
+
+test("GET /books filters, sorts, and paginates", async () => {
+  for (const book of [
+    { title: "Python Basics", author: "A", price: 300 },
+    { title: "Python Advanced", author: "B", price: 500 },
+    { title: "Node Guide", author: "C", price: 400 },
+  ]) {
+    const response = await request(app).post("/books").send(book);
+    assert.equal(response.status, 201);
+  }
+
+  const search = await request(app).get("/books?search_q=Python");
+  assert.equal(search.status, 200);
+  assert.equal(search.body.length, 2);
+
+  const ascending = await request(app).get("/books?order_by=price&order=ASC");
+  assert.deepEqual(ascending.body.map((book) => book.price), [300, 400, 500]);
+  const descending = await request(app).get("/books?order_by=price&order=DESC");
+  assert.deepEqual(descending.body.map((book) => book.price), [500, 400, 300]);
+
+  const page = await request(app).get("/books?limit=1&offset=1&order_by=price");
+  assert.equal(page.body.length, 1);
+  assert.equal(page.body[0].price, 400);
+
+  const range = await request(app).get("/books?min_price=350&max_price=450");
+  assert.deepEqual(range.body.map((book) => book.title), ["Node Guide"]);
+});
+
+test("GET /books rejects invalid query values", async () => {
+  for (const query of [
+    "?order_by=title;DROP",
+    "?order=SIDEWAYS",
+    "?limit=0",
+    "?limit=",
+    "?offset=-1",
+    "?min_price=free",
+    "?min_price=",
+    "?min_price=500&max_price=300",
+  ]) {
+    const response = await request(app).get(`/books${query}`);
+    assert.equal(response.status, 400, query);
+    assert.equal(typeof response.body.message, "string", query);
+  }
+});
