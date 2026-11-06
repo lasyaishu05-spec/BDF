@@ -10,10 +10,10 @@ function createApp(db) {
     res.status(404).json({ message: "Route not found" });
   });
   app.use((error, req, res, next) => {
-    console.error(error);
     if (error.type === "entity.parse.failed") {
       return res.status(400).json({ message: "Invalid JSON body" });
     }
+    console.error(error);
     res.status(500).json({ message: "Internal server error" });
   });
   return app;
