@@ -16,7 +16,7 @@
 - Create `lab-03/db.js`: async connection creation and `books` schema initialization.
 - Create `lab-03/routes/books.js`: validation and five REST endpoints.
 - Create `lab-03/server.js`: Express setup, startup, error handling, and testable app factory.
-- Create `lab-03/test/books.test.js`: automated HTTP/SQLite integration tests with an isolated temporary database.
+- Create `lab-03/test/books.test.js` and `lab-03/test/db.test.js`: automated HTTP/SQLite integration tests with isolated temporary databases and table-schema assertions.
 - Create `lab-03/postman_collection.json`: importable requests for the manual Postman test matrix.
 - Create `lab-03/README.md` and `lab-03/screenshots/.gitkeep`: beginner guide and a Git-preserved screenshot directory.
 
@@ -26,6 +26,7 @@
 - Create: `lab-03/package.json`
 - Create: `lab-03/.gitignore`
 - Create: `lab-03/test/books.test.js`
+- Create: `lab-03/test/db.test.js`
 - Create: `lab-03/server.js`
 - Create: `lab-03/db.js`
 - Create: `lab-03/routes/books.js`
@@ -151,6 +152,7 @@ git commit -m "chore: scaffold standalone Lab 3 project" -m "Co-authored-by: Cop
 - Create: `lab-03/db.js`
 - Create: `lab-03/server.js`
 - Test: `lab-03/test/books.test.js`
+- Test: `lab-03/test/db.test.js`
 
 - [ ] **Step 1: Implement the database initializer**
 
