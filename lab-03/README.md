@@ -2,10 +2,10 @@
 
 ## Student Information
 
-- **Student Name:** [Your Name]
-- **Registration Number:** [Your Registration Number]
-- **Section:** [Your Section]
-- **Deployment URL:** [Add your deployment URL after deploying]
+- **Student Name:** Akku Lasya
+- **Registration Number:** 252U1R9005
+- **Section:** CSE-GAI-2A
+- **Deployment URL:**
 
 ## Objective
 
