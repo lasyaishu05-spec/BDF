@@ -32,7 +32,7 @@
 - Create: `lab-03/routes/books.js`
 - Create: `lab-03/screenshots/.gitkeep`
 
-- [ ] **Step 1: Create the `lab-03` directory tree**
+- [x] **Step 1: Create the `lab-03` directory tree**
 
 Run in PowerShell from the repository root:
 
@@ -43,7 +43,7 @@ New-Item -ItemType File -Force .\lab-03\screenshots\.gitkeep | Out-Null
 
 Expected: `lab-03` exists with `routes`, `test`, and `screenshots`; add an empty `screenshots/.gitkeep` so Git preserves that folder. No existing lab files change.
 
-- [ ] **Step 2: Create the package manifest and ignore rules**
+- [x] **Step 2: Create the package manifest and ignore rules**
 
 `lab-03/package.json`:
 
@@ -80,7 +80,7 @@ node_modules/
 *.sqlite
 ```
 
-- [ ] **Step 3: Add a failing integration test for startup and list**
+- [x] **Step 3: Add a failing integration test for startup and list**
 
 `lab-03/test/books.test.js`:
 
@@ -128,7 +128,7 @@ test("GET /books returns an empty JSON array", async () => {
 });
 ```
 
-- [ ] **Step 4: Install dependencies and verify the test fails for the expected reason**
+- [x] **Step 4: Install dependencies and verify the test fails for the expected reason**
 
 Run:
 
@@ -139,7 +139,7 @@ npm --prefix .\lab-03 test
 
 Expected: dependencies install; test fails because `../server` does not yet export `createApp`.
 
-- [ ] **Step 5: Commit the isolated scaffolding**
+- [x] **Step 5: Commit the isolated scaffolding**
 
 ```powershell
 git add -- lab-03/package.json lab-03/.gitignore lab-03/test/books.test.js lab-03/screenshots/.gitkeep
@@ -154,7 +154,7 @@ git commit -m "chore: scaffold standalone Lab 3 project" -m "Co-authored-by: Cop
 - Test: `lab-03/test/books.test.js`
 - Test: `lab-03/test/db.test.js`
 
-- [ ] **Step 1: Implement the database initializer**
+- [x] **Step 1: Implement the database initializer**
 
 `lab-03/db.js`:
 
@@ -179,7 +179,7 @@ async function initializeDatabase(filename = path.join(__dirname, "books.sqlite"
 module.exports = { initializeDatabase };
 ```
 
-- [ ] **Step 2: Implement the Express app factory and startup**
+- [x] **Step 2: Implement the Express app factory and startup**
 
 `lab-03/server.js`:
 
@@ -223,7 +223,7 @@ if (require.main === module) {
 module.exports = { createApp, startServer };
 ```
 
-- [ ] **Step 3: Add a temporary router stub to make the harness executable**
+- [x] **Step 3: Add a temporary router stub to make the harness executable**
 
 Create `lab-03/routes/books.js`:
 
@@ -246,7 +246,7 @@ function createBooksRouter(db) {
 module.exports = createBooksRouter;
 ```
 
-- [ ] **Step 4: Run the focused test**
+- [x] **Step 4: Run the focused test**
 
 Run from the repository root:
 
@@ -256,7 +256,7 @@ npm --prefix .\lab-03 test
 
 Expected: the empty-list test passes with HTTP 200 and `[]`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```powershell
 git add -- lab-03/db.js lab-03/server.js lab-03/routes/books.js lab-03/test/books.test.js
@@ -269,7 +269,7 @@ git commit -m "feat: initialize SQLite and Express app" -m "Co-authored-by: Copi
 - Modify: `lab-03/routes/books.js`
 - Modify: `lab-03/test/books.test.js`
 
-- [ ] **Step 1: Add failing CRUD and validation tests**
+- [x] **Step 1: Add failing CRUD and validation tests**
 
 Append these tests before the `after` hook in `lab-03/test/books.test.js`:
 
@@ -337,13 +337,13 @@ test("invalid IDs return 400 and absent books return 404", async () => {
 
 Note: tests share one database. The test runner executes tests in declaration order within this file, so the first created ID is 1.
 
-- [ ] **Step 2: Run the tests and verify CRUD cases fail**
+- [x] **Step 2: Run the tests and verify CRUD cases fail**
 
 Run from the repository root: `npm --prefix .\lab-03 test`
 
 Expected: the initial empty-list test passes; POST, item routes, validation, update, and delete fail because they are not implemented.
 
-- [ ] **Step 3: Implement CRUD, field checks, ID checks, and JSON errors**
+- [x] **Step 3: Implement CRUD, field checks, ID checks, and JSON errors**
 
 Replace `lab-03/routes/books.js` with:
 
@@ -457,13 +457,13 @@ function createBooksRouter(db) {
 module.exports = createBooksRouter;
 ```
 
-- [ ] **Step 4: Run the tests**
+- [x] **Step 4: Run the tests**
 
 Run from the repository root: `npm --prefix .\lab-03 test`
 
 Expected: all tests pass, including missing title/author, invalid price, invalid ID, and absent book responses.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```powershell
 git add -- lab-03/routes/books.js lab-03/test/books.test.js
@@ -476,7 +476,7 @@ git commit -m "feat: add validated book CRUD routes" -m "Co-authored-by: Copilot
 - Modify: `lab-03/routes/books.js`
 - Modify: `lab-03/test/books.test.js`
 
-- [ ] **Step 1: Add filtering and sorting tests**
+- [x] **Step 1: Add filtering and sorting tests**
 
 Add these tests after CRUD tests. Insert fixtures through the API so tests cover the public behavior:
 
@@ -526,13 +526,13 @@ test("GET /books rejects invalid query values", async () => {
 });
 ```
 
-- [ ] **Step 2: Run tests and verify the new list requirements fail**
+- [x] **Step 2: Run tests and verify the new list requirements fail**
 
 Run from the repository root: `npm --prefix .\lab-03 test`
 
 Expected: CRUD tests pass; filters/order/pagination tests fail before implementation.
 
-- [ ] **Step 3: Replace only the `GET /` handler with validated parameterized query construction**
+- [x] **Step 3: Replace only the `GET /` handler with validated parameterized query construction**
 
 Use the following handler body in `lab-03/routes/books.js`:
 
@@ -608,13 +608,13 @@ Use the following handler body in `lab-03/routes/books.js`:
 
 The interpolated identifiers are safe because they are checked against fixed allowlists; user data remains bound through `?` placeholders.
 
-- [ ] **Step 4: Run the tests**
+- [x] **Step 4: Run the tests**
 
 Run from the repository root: `npm --prefix .\lab-03 test`
 
 Expected: all CRUD, filtering, sorting, pagination, and invalid-query tests pass.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```powershell
 git add -- lab-03/routes/books.js lab-03/test/books.test.js
@@ -626,7 +626,7 @@ git commit -m "feat: add validated book list query options" -m "Co-authored-by: 
 **Files:**
 - Create: `lab-03/postman_collection.json`
 
-- [ ] **Step 1: Create a Postman v2.1 collection**
+- [x] **Step 1: Create a Postman v2.1 collection**
 
 Create requests using collection variable `baseUrl = http://localhost:3000`:
 
@@ -647,7 +647,7 @@ Create requests using collection variable `baseUrl = http://localhost:3000`:
 
 For each request, include a Postman test asserting its expected status. Add body assertions for the canonical examples: created book is 201, missing title is 400 with `{"message":"Title is required"}`, and nonexistent ID is 404 with `{"message":"Book not found"}`. Use Postman's “Save response”/“Send” workflow; test IDs assume the clean database created for a fresh lab run.
 
-- [ ] **Step 2: Validate JSON syntax**
+- [x] **Step 2: Validate JSON syntax**
 
 Run from repository root:
 
@@ -657,7 +657,7 @@ Get-Content .\lab-03\postman_collection.json -Raw | ConvertFrom-Json | Out-Null
 
 Expected: command exits without an error.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```powershell
 git add -- lab-03/postman_collection.json
@@ -669,7 +669,7 @@ git commit -m "test: add Lab 3 Postman collection" -m "Co-authored-by: Copilot <
 **Files:**
 - Create: `lab-03/README.md`
 
-- [ ] **Step 1: Document project identity and structure**
+- [x] **Step 1: Document project identity and structure**
 
 Include title and objective; editable `Student Name: [Your Name]`, `Registration Number: [Your Registration Number]`, and `Section: [Your Section]`; technologies; this tree:
 
@@ -688,7 +688,7 @@ lab-03/
 
 Explain each file, startup-created `books` table, and why earlier labs are not dependencies.
 
-- [ ] **Step 2: Document commands, endpoints, validation, and query options**
+- [x] **Step 2: Document commands, endpoints, validation, and query options**
 
 Include:
 
@@ -701,11 +701,11 @@ npm test
 
 Document `http://localhost:3000`; methods and JSON body examples for all five endpoints; query defaults (`order_by=id`, `order=ASC`, `limit=100`, `offset=0`); allowed sort columns and operators; all validation rules and 200/201/400/404/500 status meanings. Explain that title and author must be non-empty strings, price must be a finite non-negative JSON number, and PUT requires all fields.
 
-- [ ] **Step 3: Document request flow and Postman test steps**
+- [x] **Step 3: Document request flow and Postman test steps**
 
 Describe how `server.js` awaits database initialization, mounts `createBooksRouter(db)` at `/books`, and how `db.js` opens SQLite; explain `req.params`, `req.query`, `req.body`, parameterized SQL, and awaiting async database calls. Give import steps for `postman_collection.json` and exact request examples with expected response shapes for create, list, filter, sort, pagination, range, get one, update, delete, bad input, and missing records.
 
-- [ ] **Step 4: Document debugging, screenshots, and GitHub publishing**
+- [x] **Step 4: Document debugging, screenshots, and GitHub publishing**
 
 Explain cause, identification, and fix for:
 
@@ -716,7 +716,7 @@ Explain cause, identification, and fix for:
 
 Add screenshot references for each required endpoint/test and clear placeholders indicating which screenshots the student should capture into `screenshots/`. Include `[Deployment URL: add after deploying]` and commands/instructions to push the repository to GitHub without database files or `node_modules`.
 
-- [ ] **Step 5: Review README against every user requirement**
+- [x] **Step 5: Review README against every user requirement**
 
 Run:
 
@@ -726,7 +726,7 @@ Get-Content .\lab-03\README.md
 
 Expected: all required identity, install/run, endpoint/query, validation/status, Postman, debugging, screenshot, and deployment topics are present; no claims of a deployment or screenshots that do not exist.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```powershell
 git add -- lab-03/README.md
@@ -743,7 +743,7 @@ git commit -m "docs: explain Lab 3 API and testing" -m "Co-authored-by: Copilot 
 - Verify: `lab-03/postman_collection.json`
 - Verify: `lab-03/README.md`
 
-- [ ] **Step 1: Run automated tests and JSON validation**
+- [x] **Step 1: Run automated tests and JSON validation**
 
 Run:
 
@@ -755,7 +755,7 @@ Get-Content .\postman_collection.json -Raw | ConvertFrom-Json | Out-Null
 
 Expected: all tests pass and collection JSON parses.
 
-- [ ] **Step 2: Start the server and verify it responds**
+- [x] **Step 2: Start the server and verify it responds**
 
 Run `npm run dev` in a VS Code terminal. In another terminal, run:
 
@@ -765,7 +765,7 @@ Invoke-RestMethod http://localhost:3000/books
 
 Expected: server prints `Server running at http://localhost:3000`; a new database is created and GET returns an empty array (PowerShell may display no rows for an empty JSON array).
 
-- [ ] **Step 3: Exercise each actual HTTP behavior**
+- [x] **Step 3: Exercise each actual HTTP behavior**
 
 Run the complete collection in Postman against a clean database. Verify POST 201; list/single/update/delete 200; invalid POST/query/ID 400; absent ID 404; and each search/sort/page/price filter returns the expected records. Also run these PowerShell smoke checks:
 
@@ -778,7 +778,7 @@ Invoke-RestMethod -Method Delete -Uri "http://localhost:3000/books/$($created.bo
 
 Expected: created and updated JSON includes the corresponding `book`; filtered GET returns that record before deletion; delete returns `Book deleted successfully`. Use `try/catch` to inspect error response bodies for expected 400/404 cases.
 
-- [ ] **Step 4: Inspect scope and Git status**
+- [x] **Step 4: Inspect scope and Git status**
 
 Run from repository root:
 
@@ -789,7 +789,7 @@ Get-ChildItem .\lab-03 -Recurse -File | Select-Object -ExpandProperty FullName
 
 Expected: all app files are under `lab-03`; no `.sqlite`, `.db`, or `node_modules` appears as a tracked file; unrelated workspace edits remain unchanged.
 
-- [ ] **Step 5: Commit any final corrections**
+- [x] **Step 5: Commit any final corrections**
 
 If verification uncovers a defect, fix it, rerun the failing test and the complete `npm test`, then commit only `lab-03` changes with the standard co-author trailer.
 

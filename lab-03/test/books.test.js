@@ -1,5 +1,5 @@
 const assert = require("node:assert/strict");
-const { after, before, test } = require("node:test");
+const { after, before, beforeEach, test } = require("node:test");
 const os = require("node:os");
 const path = require("node:path");
 const fs = require("node:fs/promises");
@@ -15,6 +15,10 @@ before(async () => {
   directory = await fs.mkdtemp(path.join(os.tmpdir(), "lab-03-books-"));
   db = await initializeDatabase(path.join(directory, "test.sqlite"));
   app = createApp(db);
+});
+
+beforeEach(async () => {
+  await db.exec("DELETE FROM books; DELETE FROM sqlite_sequence WHERE name = 'books';");
 });
 
 after(async () => {
@@ -72,16 +76,22 @@ test("POST rejects non-numeric and negative prices", async () => {
 });
 
 test("PUT updates a book and DELETE removes it", async () => {
+  const created = await request(app)
+    .post("/books")
+    .send({ title: "Before update", author: "A. Writer", price: 250 });
+  assert.equal(created.status, 201);
+  const bookId = created.body.book.id;
+
   const updated = await request(app)
-    .put("/books/1")
+    .put(`/books/${bookId}`)
     .send({ title: "Updated", author: "B. Writer", price: 450 });
   assert.equal(updated.status, 200);
   assert.deepEqual(updated.body, {
     message: "Book updated successfully",
-    book: { id: 1, title: "Updated", author: "B. Writer", price: 450 },
+    book: { id: bookId, title: "Updated", author: "B. Writer", price: 450 },
   });
 
-  const deleted = await request(app).delete("/books/1");
+  const deleted = await request(app).delete(`/books/${bookId}`);
   assert.equal(deleted.status, 200);
   assert.deepEqual(deleted.body, { message: "Book deleted successfully" });
 });
@@ -94,6 +104,26 @@ test("invalid IDs return 400 and absent books return 404", async () => {
   const absent = await request(app).get("/books/999");
   assert.equal(absent.status, 404);
   assert.deepEqual(absent.body, { message: "Book not found" });
+
+  const invalidUpdate = await request(app)
+    .put("/books/0")
+    .send({ title: "Valid", author: "A. Writer", price: 10 });
+  assert.equal(invalidUpdate.status, 400);
+  assert.deepEqual(invalidUpdate.body, { message: "Invalid book ID" });
+
+  const absentUpdate = await request(app)
+    .put("/books/999")
+    .send({ title: "Valid", author: "A. Writer", price: 10 });
+  assert.equal(absentUpdate.status, 404);
+  assert.deepEqual(absentUpdate.body, { message: "Book not found" });
+
+  const invalidDelete = await request(app).delete("/books/0");
+  assert.equal(invalidDelete.status, 400);
+  assert.deepEqual(invalidDelete.body, { message: "Invalid book ID" });
+
+  const absentDelete = await request(app).delete("/books/999");
+  assert.equal(absentDelete.status, 404);
+  assert.deepEqual(absentDelete.body, { message: "Book not found" });
 });
 
 test("malformed JSON returns a consistent 400 error", async () => {
@@ -146,5 +176,17 @@ test("GET /books rejects invalid query values", async () => {
     const response = await request(app).get(`/books${query}`);
     assert.equal(response.status, 400, query);
     assert.equal(typeof response.body.message, "string", query);
+  }
+});
+
+test("GET /books treats SQL LIKE wildcards as literal search text", async () => {
+  await request(app)
+    .post("/books")
+    .send({ title: "Python Basics", author: "A. Writer", price: 399.5 });
+
+  for (const search of ["%25", "%5F"]) {
+    const response = await request(app).get(`/books?search_q=${search}`);
+    assert.equal(response.status, 200);
+    assert.deepEqual(response.body, []);
   }
 });

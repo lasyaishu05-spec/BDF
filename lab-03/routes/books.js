@@ -21,6 +21,10 @@ function validateBook(body) {
   return null;
 }
 
+function escapeLikeWildcards(value) {
+  return value.replace(/[\\%_]/g, "\\$&");
+}
+
 function createBooksRouter(db) {
   const router = express.Router();
 
@@ -81,8 +85,8 @@ function createBooksRouter(db) {
     const conditions = [];
     const values = [];
     if (searchQ !== undefined) {
-      conditions.push("title LIKE ?");
-      values.push(`%${searchQ}%`);
+      conditions.push("title LIKE ? ESCAPE char(92)");
+      values.push(`%${escapeLikeWildcards(searchQ)}%`);
     }
     if (minPrice !== undefined) {
       conditions.push("price >= ?");

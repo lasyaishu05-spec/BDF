@@ -178,7 +178,8 @@ All parameters are optional.
 
 Price bounds are inclusive. If both are given, `min_price` must not exceed
 `max_price`. Sorting is restricted to the listed columns; filter values are
-passed as SQL parameters.
+passed as SQL parameters. `search_q` treats `%` and `_` as literal characters,
+so the value searches for title text rather than SQL wildcard patterns.
 
 Examples (add sample books first to see matching rows):
 
