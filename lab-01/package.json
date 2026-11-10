@@ -1,13 +1,15 @@
 {
   "name": "lab1",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Lab 1 - Node.js and Express Server for Backend Development Fundamentals",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
+    "start:plain": "node plain-server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Akku Lasya",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

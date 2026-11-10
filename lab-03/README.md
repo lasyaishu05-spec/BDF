@@ -5,7 +5,10 @@
 - **Student Name:** Akku Lasya
 - **Registration Number:** 252U1R9005
 - **Section:** CSE-GAI-2A
-- **Deployment URL:**
+- **Deployment URL:** N/A (Local SQLite File Database - see [Deployment Limitation](#deployment-limitation))
+
+### Deployment Limitation
+This project uses a file-based SQLite database (`books.sqlite`). Serverless cloud deployment platforms (such as Vercel, Netlify, or AWS Lambda) operate on read-only, ephemeral file systems where local SQLite file writes do not persist across requests or server restarts. To deploy in a cloud production environment, SQLite requires persistent volume storage (such as a VPS, Docker container with a mounted volume, or Render with persistent disk), or migration to a hosted relational database service (such as PostgreSQL, MySQL, or Turso). For development, grading, and testing purposes, this API runs locally with Node.js on `http://localhost:3000`.
 
 ## Objective
 
